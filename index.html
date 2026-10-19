@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Addon Hub — MythicForge</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Noto+Sans+Thai:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#f4f2f8;--surface:#fff;--ink:#1d1830;--mute:#6a6580;--line:#dcd7e8;--accent:#6d3fd6;--on:#fff;
+--c0:#9aa0a6;--c1:#3fae63;--c2:#3b82f6;--c3:#a855f7;--c4:#f59e0b;--c5:#ef4444;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15121f;--surface:#201b30;--ink:#f1eefa;--mute:#a49dbd;--line:#352e4d;--accent:#a98bff;--on:#15121f}}
+:root[data-theme="dark"]{--bg:#15121f;--surface:#201b30;--ink:#f1eefa;--mute:#a49dbd;--line:#352e4d;--accent:#a98bff;--on:#15121f}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.7 "Noto Sans Thai",system-ui,sans-serif}
+.wrap{max-width:880px;margin:0 auto;padding:40px 20px 64px}
+.brand{font:700 15px "Pixelify Sans","Noto Sans Thai",monospace;color:var(--mute);margin:0 0 28px}
+h1{font:700 clamp(40px,9vw,72px)/1 "Pixelify Sans","Noto Sans Thai",monospace;margin:0 0 14px;letter-spacing:.5px}
+.lead{max-width:56ch;color:var(--mute);margin:0 0 28px}
+.ladder{display:flex;height:44px;border-radius:6px;overflow:hidden;border:2px solid var(--ink);margin:0 0 8px}
+.ladder span{display:flex;align-items:center;justify-content:center;font:700 12px "Pixelify Sans",monospace;color:#fff;min-width:0;overflow:hidden;text-shadow:0 1px 0 rgba(0,0,0,.4)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--mute);margin:0 0 48px}
+.legend i{display:inline-block;width:10px;height:10px;margin-right:6px;border-radius:2px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:24px;display:grid;grid-template-columns:112px 1fr;gap:24px}
+.card img{width:112px;height:112px;image-rendering:pixelated;border-radius:6px;border:2px solid var(--ink)}
+.card h2{font:700 28px/1.2 "Pixelify Sans","Noto Sans Thai",monospace;margin:0 0 4px}
+.ver{color:var(--mute);font-size:14px;margin:0 0 12px}
+.card p{margin:0 0 14px}
+.feat{margin:0 0 18px;padding-left:20px}.feat li{margin:2px 0}
+.btn{display:inline-block;text-decoration:none;font:700 16px "Noto Sans Thai",sans-serif;background:var(--accent);color:var(--on);border:0;border-radius:6px;padding:12px 22px;cursor:pointer}
+button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}button:disabled{opacity:.5;cursor:not-allowed}
+.msg{font-size:14px;margin:10px 0 0;color:var(--mute);min-height:1.4em}
+.how{margin:40px 0 0}.how h3{font:700 20px "Noto Sans Thai",sans-serif;margin:0 0 8px}.how ol{padding-left:22px;margin:0}.how li{margin:6px 0}
+.req{margin:32px 0 0;font-size:14px;color:var(--mute)}
+@media (max-width:560px){.card{grid-template-columns:1fr}.ladder span{font-size:0}}
+</style></head><body><div class="wrap">
+<p class="brand">ADDON HUB สำหรับ Minecraft PE</p>
+<h1>MythicForge</h1>
+<p class="lead">แอดออนสุ่มความหายาก ออฟฟิก พาสซีฟ และสกิลให้อาวุธ เครื่องมือ และเกราะ ดาวน์โหลดแล้วนำเข้าเกมได้เลย</p>
+<div class="ladder" role="img" aria-label="อัตราสุ่มความหายาก"></div>
+<div class="legend" id="legend"></div>
+<div id="list"></div>
+<section class="how"><h3>วิธีติดตั้ง</h3><ol>
+<li>กดดาวน์โหลดไฟล์ .mcaddon</li>
+<li>แตะไฟล์ .mcaddon Minecraft จะเปิดและนำเข้าอัตโนมัติ</li>
+<li>เปิดใช้ทั้ง Behavior Pack และ Resource Pack ตอนสร้างโลก</li></ol></section>
+<p class="req">ต้องใช้ Minecraft เวอร์ชัน 1.26.50 ขึ้นไป ใช้ Script API ตัวเสถียร 2.10.0</p>
+</div>
+<script>
+/* เพิ่มแอดออนใหม่: วางไฟล์ไว้ในโฟลเดอร์ addons/ แล้วเพิ่มรายการในนี้ */
+const ADDONS=[{
+ name:"MythicForge",ver:"Behavior 1.6.1 / Resource 1.2.1",size:"437 KB",
+ desc:"สุ่มความหายาก 6 ระดับ พร้อมออฟฟิกและเอฟเฟกต์เฉพาะตัว มีหินอัปเกรด พาสซีฟ และสกิล (ย่อตัว + ใช้ไอเทม) รองรับภาษาอังกฤษและไทย",
+ feats:["จำนวนออฟฟิกเพิ่มตามระดับ ตั้งแต่ 0 ถึง 7","Unique Effect: Epic 10%, Legendary 35%, Mythic 100%","หินอัปเกรดเพื่อดันความหายาก"],
+ file:"addons/MythicForge.mcaddon",icon:"addons/MythicForge.png"}];
+const R=[["Common",30,"--c0"],["Uncommon",35,"--c1"],["Rare",21,"--c2"],["Epic",9.1,"--c3"],["Legendary",3.43,"--c4"],["Mythic",1.47,"--c5"]];
+const L=document.querySelector(".ladder"),G=document.getElementById("legend");
+R.forEach(([n,p,c])=>{const s=document.createElement("span");s.style.cssText="flex:"+p+";background:var("+c+")";s.textContent=n;L.appendChild(s);
+ const l=document.createElement("span");const i=document.createElement("i");i.style.background="var("+c+")";l.append(i,n+" "+p+"%");G.appendChild(l)});
+const list=document.getElementById("list");
+ADDONS.forEach(a=>{
+ const c=document.createElement("article");c.className="card";
+ const im=document.createElement("img");im.src=a.icon;im.alt="";
+ const d=document.createElement("div");
+ const h=document.createElement("h2");h.textContent=a.name;
+ const v=document.createElement("p");v.className="ver";v.textContent=a.ver+" · "+a.size;
+ const p=document.createElement("p");p.textContent=a.desc;
+ const u=document.createElement("ul");u.className="feat";a.feats.forEach(t=>{const li=document.createElement("li");li.textContent=t;u.appendChild(li)});
+ const b=document.createElement("a");b.className="btn";b.href=a.file;b.setAttribute("download","");b.textContent="ดาวน์โหลด .mcaddon";
+ d.append(h,v,p,u,b);c.append(im,d);list.appendChild(c);
+});
+</script></body></html>
