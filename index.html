@@ -4,78 +4,104 @@
 <title>MyAddon — แอดออน Minecraft PE</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Noto+Sans+Thai:wght@400;500;700&display=swap">
 <style>
-:root{--bg:#f4f2f8;--surface:#fff;--ink:#1d1830;--mute:#6a6580;--line:#dcd7e8;--accent:#6d3fd6;--on:#fff;
---c0:#9aa0a6;--c1:#3fae63;--c2:#3b82f6;--c3:#a855f7;--c4:#f59e0b;--c5:#ef4444;
+:root{--bg:#f4f2f8;--surface:#fff;--ink:#1d1830;--mute:#6a6580;--line:#dcd7e8;--accent:#6d3fd6;--on:#fff;--soft:#efeaf9;
+--c0:#9aa0a6;--c1:#3fae63;--c2:#3b82f6;--c3:#a855f7;--c4:#f59e0b;--c5:#ef4444;--c6:#06b6d4;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15121f;--surface:#201b30;--ink:#f1eefa;--mute:#a49dbd;--line:#352e4d;--accent:#a98bff;--on:#15121f}}
-:root[data-theme="dark"]{--bg:#15121f;--surface:#201b30;--ink:#f1eefa;--mute:#a49dbd;--line:#352e4d;--accent:#a98bff;--on:#15121f}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15121f;--surface:#201b30;--ink:#f1eefa;--mute:#a49dbd;--line:#352e4d;--accent:#a98bff;--on:#15121f;--soft:#2a2340}}
+:root[data-theme="dark"]{--bg:#15121f;--surface:#201b30;--ink:#f1eefa;--mute:#a49dbd;--line:#352e4d;--accent:#a98bff;--on:#15121f;--soft:#2a2340}
 *{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.7 "Noto Sans Thai",system-ui,sans-serif}
-.wrap{max-width:880px;margin:0 auto;padding:40px 20px 64px}
-.brand{font:700 15px "Pixelify Sans","Noto Sans Thai",monospace;color:var(--mute);margin:0 0 28px}
-h1{font:700 clamp(40px,9vw,72px)/1 "Pixelify Sans","Noto Sans Thai",monospace;margin:0 0 14px;letter-spacing:.5px}
-.lead{max-width:56ch;color:var(--mute);margin:0 0 28px}
-.ladder{display:flex;height:44px;border-radius:6px;overflow:hidden;border:2px solid var(--ink);margin:0 0 8px}
-.ladder span{display:flex;align-items:center;justify-content:center;font:700 12px "Pixelify Sans",monospace;color:#fff;min-width:0;overflow:hidden;text-shadow:0 1px 0 rgba(0,0,0,.4)}
-.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--mute);margin:0 0 48px}
-.legend i{display:inline-block;width:10px;height:10px;margin-right:6px;border-radius:2px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:24px;display:grid;grid-template-columns:112px 1fr;gap:24px}
-.card img{width:112px;height:112px;image-rendering:pixelated;border-radius:6px;border:2px solid var(--ink)}
-.card h2{font:700 28px/1.2 "Pixelify Sans","Noto Sans Thai",monospace;margin:0 0 4px}
-.ver{color:var(--mute);font-size:14px;margin:0 0 12px}
-.card p{margin:0 0 14px}
-.feat{margin:0 0 18px;padding-left:20px}.feat li{margin:2px 0}
-.btn{display:inline-block;text-decoration:none;font:700 16px "Noto Sans Thai",sans-serif;background:var(--accent);color:var(--on);border:0;border-radius:6px;padding:12px 22px;cursor:pointer}
-button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}button:disabled{opacity:.5;cursor:not-allowed}
-.msg{font-size:14px;margin:10px 0 0;color:var(--mute);min-height:1.4em}
-.card+.card{margin-top:20px}.card .ladder{margin:16px 0 8px;height:36px}.card .legend{margin:0 0 16px}.rq{font-size:14px;color:var(--mute);margin:14px 0 0}.how{margin:40px 0 0}.how h3{font:700 20px "Noto Sans Thai",sans-serif;margin:0 0 8px}.how ol{padding-left:22px;margin:0}.how li{margin:6px 0}
-.req{margin:32px 0 0;font-size:14px;color:var(--mute)}
-@media (max-width:560px){.card{grid-template-columns:1fr}.ladder span{font-size:0}}
+.wrap{max-width:900px;margin:0 auto;padding:40px 20px 64px}
+.brand{font:700 15px "Pixelify Sans","Noto Sans Thai",monospace;color:var(--mute);margin:0 0 24px}
+h1{font:700 clamp(40px,9vw,72px)/1 "Pixelify Sans","Noto Sans Thai",monospace;margin:0 0 14px}
+.lead{max-width:56ch;color:var(--mute);margin:0 0 20px}
+.jump{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 36px}
+.jump a{color:var(--ink);border:2px solid var(--ink);border-radius:6px;padding:6px 14px;text-decoration:none;font-weight:500}
+.jump a:focus-visible,.btn:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:24px;margin:0 0 28px}
+.head{display:flex;gap:20px;align-items:flex-start}
+.head img{width:96px;height:96px;flex:none;image-rendering:pixelated;border-radius:6px;border:2px solid var(--ink)}
+.head h2{font:700 30px/1.2 "Pixelify Sans","Noto Sans Thai",monospace;margin:0 0 2px}
+.ver{color:var(--mute);font-size:14px;margin:0 0 8px}
+.sum{margin:18px 0 14px}
+.btn{display:inline-block;text-decoration:none;font:700 16px "Noto Sans Thai",sans-serif;background:var(--accent);color:var(--on);border-radius:6px;padding:12px 22px}
+.rq{font-size:14px;color:var(--mute);margin:12px 0 18px}
+.ladder{display:flex;height:34px;border-radius:6px;overflow:hidden;border:2px solid var(--ink);margin:4px 0 6px}
+.ladder span{display:flex;align-items:center;justify-content:center;font:700 12px "Pixelify Sans",monospace;color:#fff;overflow:hidden;text-shadow:0 1px 0 rgba(0,0,0,.4)}
+details{border-top:1px solid var(--line)}
+summary{cursor:pointer;font-weight:700;padding:12px 0;list-style:none}
+summary::before{content:"+";display:inline-block;width:1.2em;color:var(--accent)}
+details[open] summary::before{content:"−"}
+.body{padding:0 0 14px;font-size:15px}
+.body p{margin:0 0 8px}.body ul{margin:0 0 8px;padding-left:20px}.body li{margin:2px 0}
+.tw{overflow-x:auto;margin:0 0 10px}
+table{border-collapse:collapse;min-width:100%;font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:6px 10px;text-align:left;white-space:nowrap}
+th{background:var(--soft)}
+.dot{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px}
+.rec{display:flex;flex-wrap:wrap;gap:18px;margin:6px 0 10px}
+.rec figure{margin:0}.rec figcaption{font-size:13px;color:var(--mute);margin-top:6px;max-width:300px}.rec img{display:block;width:100%;max-width:300px;height:auto;image-rendering:pixelated;border-radius:6px}
+.rg{display:grid;grid-template-columns:repeat(3,40px);gap:3px}
+.rg b{height:40px;display:flex;align-items:center;justify-content:center;background:var(--soft);border:1px solid var(--line);border-radius:4px;font:700 14px "Pixelify Sans",monospace}
+.how{margin:36px 0 0}.how h3{font-size:20px;margin:0 0 8px}.how ol{padding-left:22px;margin:0}.how li{margin:6px 0}
+@media (max-width:560px){.head{flex-direction:column}.ladder span{font-size:0}}
 </style></head><body><div class="wrap">
 <p class="brand">ADDON HUB สำหรับ Minecraft PE</p>
 <h1>MyAddon</h1>
 <p class="lead">รวมแอดออน Minecraft PE ที่ทำเอง ดาวน์โหลดแล้วนำเข้าเกมได้เลย</p>
+<nav class="jump" id="jump"></nav>
 <div id="list"></div>
 <section class="how"><h3>วิธีติดตั้ง</h3><ol>
 <li>กดดาวน์โหลดไฟล์ .mcaddon</li>
 <li>แตะไฟล์ .mcaddon Minecraft จะเปิดและนำเข้าอัตโนมัติ</li>
-<li>ตอนสร้างโลก เปิดใช้ทั้ง Behavior Pack และ Resource Pack ของแอดออนนั้น</li></ol></section>
-
+<li>ตอนสร้างโลก เปิดใช้ทั้ง Behavior Pack และ Resource Pack ของแอดออนนั้น</li>
+<li>ควรสำรองโลกก่อนนำเข้าเวอร์ชันใหม่ทับของเดิม</li></ol></section>
 </div>
 <script>
-/* เพิ่มแอดออนใหม่: วางไฟล์ไว้ข้างๆ index.html แล้วเพิ่มรายการในนี้ */
+/* เพิ่มแอดออนใหม่: วางไฟล์ไว้ข้างๆ index.html แล้วเพิ่มรายการใน ADDONS */
 const R=[["Common",30,"--c0"],["Uncommon",35,"--c1"],["Rare",21,"--c2"],["Epic",9.1,"--c3"],["Legendary",3.43,"--c4"],["Mythic",1.47,"--c5"]];
+const tbl=(h,rows)=>'<div class="tw"><table><tr>'+h.map(x=>'<th>'+x+'</th>').join('')+'</tr>'+rows.map(r=>'<tr>'+r.map(x=>'<td>'+x+'</td>').join('')+'</tr>').join('')+'</table></div>';
+const grid=c=>'<div class="rg">'+c.map(x=>'<b>'+x+'</b>').join('')+'</div>';
+const ul=a=>'<ul>'+a.map(x=>'<li>'+x+'</li>').join('')+'</ul>';
+const dot=k=>'<i class="dot" style="background:var('+k+')"></i>';
 const ADDONS=[{
- name:"MythicForge",ver:"Behavior 1.6.1 / Resource 1.2.1",size:"437 KB",ladder:true,
- desc:"สุ่มความหายาก 6 ระดับ พร้อมออฟฟิกและเอฟเฟกต์เฉพาะตัว มีหินอัปเกรด พาสซีฟ และสกิล (ย่อตัว + ใช้ไอเทม) รองรับภาษาอังกฤษและไทย",
- feats:["จำนวนออฟฟิกเพิ่มตามระดับ ตั้งแต่ 0 ถึง 7","Unique Effect: Epic 10%, Legendary 35%, Mythic 100%","หินอัปเกรดเพื่อดันความหายาก"],
- req:"ต้องใช้ Minecraft 1.26.50 ขึ้นไป (Script API 2.10.0)",
- file:"MythicForge.mcaddon",icon:"MythicForge.png"},
-{
- name:"Dazai Dating",ver:"เวอร์ชัน 1.80.0 (canon)",size:"2.5 MB",
- desc:"จีบโอซามุ ดาไซในมายคราฟ พร้อมสกินและโมเดลของดาไซ",
- feats:["บทพูดและเนื้อเรื่องของดาไซ","ลูกที่ได้บุคลิกต่างกันแบบสุ่ม แต่ละบุคลิกมีบทพูดของตัวเอง"],
- req:"ต้องใช้ Minecraft 1.24.0 ขึ้นไป",
- file:"Dazai_Dating_canon.mcaddon",icon:"Dazai_Dating.png"}];
-const list=document.getElementById("list");
+ id:"mythicforge",name:"MythicForge",ver:"Behavior 1.6.1 / Resource 1.2.1",size:"437 KB",ladder:true,
+ desc:"สุ่มความหายากให้อาวุธ ขวาน เครื่องมือ เกราะ และอุปกรณ์เสริม ตั้งแต่ Common ถึง Divine แต่ละชิ้นได้ออฟฟิก เอฟเฟกต์เฉพาะตัว พาสซีฟ และสกิลต่างกัน มีหินอัปเกรดคราฟได้ ข้อความบนไอเทมเป็นภาษาไทย",
+ req:"ต้องใช้ Minecraft 1.26.50 ขึ้นไป · Script API @minecraft/server 2.10.0 · Behavior Pack ต้องใช้คู่กับ Resource Pack ที่มาในไฟล์เดียวกัน",
+ file:"MythicForge.mcaddon",icon:"MythicForge.png",
+ secs:[
+ {t:"ระดับความหายากและอัตราสุ่ม",open:1,h:tbl(["ระดับ","โอกาสสุ่ม","ออฟฟิก","Unique Effect","พาสซีฟช่อง 1"],[
+  [dot("--c0")+"Common","30%","0–1","–","6%"],[dot("--c1")+"Uncommon","35%","1–2","–","12%"],[dot("--c2")+"Rare","21%","2–3","–","22%"],
+  [dot("--c3")+"Epic","9.1%","3–4","10%","38%"],[dot("--c4")+"Legendary","3.43%","4–5","35%","60%"],[dot("--c5")+"Mythic","1.47%","6–7","100%","100%"],
+  [dot("--c6")+"Divine","อัปเกรดเท่านั้น","เพิ่มจาก Mythic","100%","100%"]])+
+  ul(["ช่องพาสซีฟช่อง 2: Epic 6%, Legendary 20%, Mythic 35%, Divine 100% (หนึ่งชิ้นมีพาสซีฟได้สูงสุด 2)","Common และ Uncommon ใช้ช่วงค่าของ Rare คูณ 0.4 และ 0.7 ส่วน Mythic ใช้ช่วงของ Legendary คูณ 1.1 และ Divine คูณ 1.25","Epic และ Legendary มีโอกาส 15% ที่จะได้สแตทติดลบเพิ่ม 1 รายการ (ไม่นับรวมจำนวนออฟฟิก)","High Roll: สแตทดาเมจมีโอกาสสุ่มได้เกินช่วงปกติ Epic 2%, Legendary 8%, Mythic 12%, Divine 16% (ขยายค่าสูงสุดได้ถึง 30%)","ได้ไอเทมระดับ Rare ขึ้นไป จะมีข้อความแจ้งเตือน"])},
+ {t:"หินอัปเกรด (Mythic และ Divine)",h:ul(["<b>ศิลาเทพนิยาย</b> (Mythic Upgrade Stone) อัปเกรด Legendary เป็น Mythic สำเร็จ 25%","<b>ศิลาเทพเจ้า</b> (Divine Upgrade Stone) อัปเกรด Mythic เป็น Divine สำเร็จ 10%","วิธีใช้: วางไอเทมไว้ช่อง hotbar ถัดไปทางขวาของหิน ถือหินแล้วกดใช้ ผลสำเร็จหรือล้มเหลวขึ้นเหนือ hotbar","ถ้าล้มเหลว หินถูกใช้ไป แต่ไอเทมไม่เสียและไม่ลดระดับ","เมื่ออัปเกรด: เก็บออฟฟิกบวกเดิมทั้งหมด ตัดค่าติดลบทิ้ง เพิ่มออฟฟิกบวก 2 รายการ รับประกัน Unique Effect และพาสซีฟอย่างน้อย 1 ช่อง (Mythic) หรือ 2 ช่อง (Divine)","Divine ทำให้ Unique Effect มีโอกาสติดสูงขึ้น 1.25 เท่า และคูลดาวน์สั้นลงเหลือ 0.8 เท่า"])+
+  '<div class="rec"><figure><img src="recipe_mythic_stone.png" alt="สูตรคราฟศิลาเทพนิยาย" width="444" height="284"><figcaption>ศิลาเทพนิยาย: Amethyst Shard 2 ชิ้น + Netherite Scrap 4 ชิ้น วางตามภาพ (ช่องว่างคือไม่ใส่)</figcaption></figure><figure><img src="recipe_divine_stone.png" alt="สูตรคราฟศิลาเทพเจ้า" width="444" height="284"><figcaption>ศิลาเทพเจ้า: วางเหมือนสูตรแรก แต่ใส่ศิลาเทพนิยาย 1 ก้อนตรงกลาง</figcaption></figure></div>'},
+ {t:"ออฟฟิกและสแตท",h:'<p>มีออฟฟิกมากกว่า 40 แบบ (รวมค่าติดลบ 2 แบบคือ เปราะบาง และ หนักอึ้ง) แยกตามประเภทไอเทม ได้แก่ อาวุธ ขวาน เครื่องมือ เกราะ และอุปกรณ์เสริม ตัวอย่างสแตทที่สุ่มได้</p>'+ul(["โจมตี: ดูดเลือด · ดาเมจใส่ศัตรูเลือดต่ำกว่า 50% · ดาเมจใส่ศัตรูเลือด 40+ HP · ดาเมจขณะวิ่ง · ดาเมจขณะย่อ · ดาเมจต่อคอมโบ · ดาเมจยิงไกล 15+ บล็อก · โอกาสเลือดไหล · โอกาสทำให้ศัตรูช้า · ฟื้น HP เมื่อสังหาร","ป้องกัน: ลดดาเมจที่โดน · HP สูงสุด · โอกาสหลบ · ลดดาเมจจากการตก · ต้านการยิง · ลดดาเมจเมื่อเลือดต่ำกว่า 40% · ลดดาเมจขณะย่อ · ฟื้น HP นอกการต่อสู้","ขุดและยูทิลิตี้: ความเร็วขุด · โอกาสดรอปคูณสอง · โอกาสหลอมทันที · โอกาสได้ XP เพิ่ม · โอกาสขุดเป็นสาย · โอกาสเจออัญมณี · ของเข้ากระเป๋าเอง · ความทนทาน · ซ่อมตัวเอง · ความเร็วเคลื่อนที่"])},
+ {t:"Unique Effect (8 แบบ)",h:ul(["<b>สายฟ้าฟาด</b> มีโอกาสเรียกสายฟ้าใส่มอนสเตอร์ที่ตี (ไม่ทำลายบล็อก)","<b>ดูดโลหิต</b> ฟื้นเลือดตามเปอร์เซ็นต์ของดาเมจ","<b>ขุดระเบิด</b> มีโอกาสทำลายบล็อกรอบๆ","<b>สมบัติทะลัก</b> มีโอกาสได้ดรอปเพิ่มอีกชุด","<b>หัวใจฟินิกซ์</b> เลือดต่ำกว่าเกณฑ์แล้วฟื้นกลับ","<b>นักวิ่งสายลม</b> เร็วขึ้นเมื่อวิ่ง","<b>นักดำน้ำ</b> หายใจใต้น้ำได้ ว่ายเร็วขึ้น","<b>ลมหายใจที่สอง</b> เลือดต่ำแล้วฟื้นต่อเนื่องพร้อมโล่ดูดซับ"])+'<p>Unique Effect บางแบบมีคูลดาวน์ ซึ่งเก่งขึ้นเมื่อเป็น Divine</p>'},
+ {t:"พาสซีฟและสกิล (รวม 26 แบบ)",h:'<p><b>สกิลกดใช้</b> ถือไอเทมแล้วกดใช้ (ตัวเลขคือคูลดาวน์ที่ระดับ Rare)</p>'+ul(["<b>คลื่นเพลิง</b> (ดาบ/ขวาน) คลื่นไฟเป็นพัดระยะ 8 บล็อก ทำดาเมจและเผามอนสเตอร์ในพัด ไม่จุดไฟบนโลก · 40 วิ","<b>เจาะห้วงว่าง</b> (ดาบ/หอก/ค้อน) ลำแสงตามทิศที่มอง ทะลุมอนสเตอร์ทุกตัวในแนว · 8 วิ","<b>หมุนฟัน</b> 6 วิ · <b>พุ่งเงา</b> พุ่งไปข้างหน้า 3–5 บล็อก 5 วิ · <b>กระแทกพื้นกระโดด</b> 12 วิ","<b>ธนูเอนเดอร์</b> 15 วิ · <b>ลูกธนูระเบิด</b> 100 วิ","<b>รถขุดพื้นที่</b> 7 วิ · <b>ขุดลำแสง</b> 8–12 บล็อก 18 วิ · <b>ขุดระเบิด</b> 100 วิ"])+'<p><b>พาสซีฟ</b></p>'+ul(["<b>ผนึกเพลิง</b> กันดาเมจไฟและลาวา · <b>ขนนกร่วงหล่น</b> กันดาเมจจากการตก","<b>ผิวหิน</b> จำกัดดาเมจต่อครั้ง · <b>เกราะหนาม</b> สะท้อนดาเมจประชิดกลับไปหาผู้ตี · <b>จิตปราชญ์</b> ได้ XP เมื่อสังหาร","<b>ใบมีดพิษ</b> · <b>สัมผัสน้ำแข็ง</b> · <b>สายฟ้าผ่า</b> · <b>ดูดโลหิต</b> · <b>แม่เหล็กนักขุด</b>","<b>ชีพจรป่า</b> · <b>แรงดึงผืนดิน</b> · <b>ฟาดกวาด</b> · <b>ฟาดสะท้อน</b> · <b>พลังกำมือ</b> · <b>สัมผัสแร่</b>"])+'<p>ค่าของพาสซีฟและสกิลขยับตามระดับความหายาก Divine ใช้ช่วงค่าของ Mythic</p>'},
+ {t:"ระบบอื่นๆ",h:ul(["ขุดเป็นสาย (Vein Miner) และขุดระเบิด","ระบบความทนทาน และระบบสวมใส่ที่ให้บัฟตามสแตท (เช่น Haste, Speed, Health Boost)","สุ่มสแตทให้ไอเทมของผู้เล่นโหมด Creative ด้วย และสุ่มให้เกราะที่ถูกสวมโดยไม่ผ่านกระเป๋า (เช่น จาก dispenser)","ข้อความบนไอเทมเป็นภาษาไทยเสมอ ค่าต่างๆ แก้ได้ในไฟล์ config.js ของ Behavior Pack"])}]
+},{
+ id:"dazai",name:"Dazai Dating",ver:"เวอร์ชัน 1.80.0 (canon)",size:"2.5 MB",
+ desc:"จีบโอซามุ ดาไซ ในมายคราฟ มีระบบความรัก เดท สารภาพรัก แต่งงาน อยู่บ้านด้วยกัน และมีลูกที่แต่ละคนมีบุคลิกต่างกัน ดาไซมีบทพูด ท่าทาง เสียง และฉากกล้องของตัวเอง ข้อความทั้งหมดเป็นภาษาไทย",
+ req:"ต้องใช้ Minecraft 1.24.0 ขึ้นไป · Script API @minecraft/server 1.16.0 และ @minecraft/server-ui 1.3.0 · Behavior Pack ต้องใช้คู่กับ Resource Pack ที่มาในไฟล์เดียวกัน",
+ file:"Dazai_Dating_canon.mcaddon",icon:"Dazai_Dating.png",
+ secs:[
+ {t:"เริ่มเล่น ไอเทมและสูตรคราฟ",open:1,h:ul(["<b>การ์ดเรียกดาไซ</b> คราฟได้ในโหมดเอาชีวิตรอด ใช้แล้วหมดไป 1 ใบ","<b>แหวนเรียกดาไซ</b> เรียกดาไซมาหาได้ ใช้ได้เฉพาะหลังแต่งงาน","<b>หนังสือของผู้สร้าง</b> คลิกขวาเปิดหน้าต่างควบคุมของผู้สร้าง ขอรับได้ด้วยคำสั่ง /scriptevent dazai:book","<b>ไข่เสก โอซามุ ดาไซ</b> สำหรับเสกตัวดาไซ"])+'<div class="rec"><figure><img src="recipe_summon_card.png" alt="สูตรคราฟการ์ดเรียกดาไซ" width="444" height="284"><figcaption>การ์ดเรียกดาไซ: Paper 6 ชิ้น + Leather 2 ชิ้น + Diamond 1 ชิ้น วางตามภาพ</figcaption></figure></div>'},
+ {t:"ระบบจีบและความรัก",h:ul(["โควตาต่อวันสำหรับการคุย ท่าทาง และของขวัญ","ความรักลดลงถ้าหายไปนาน ดาไซจะงอนและต้องง้อ แต่ความรักจะไม่ตกต่ำกว่าขั้นที่ผ่านมาแล้ว","เหตุการณ์ตามระดับความรัก 25 / 50 / 75","สารภาพรัก ถ้าไม่สำเร็จลองใหม่ได้วันถัดไป","เดทและเดทวันสำคัญ (วันเกิด วันครบรอบ) มีคำถามกลางเดทที่พยายามไม่ให้ซ้ำ","สมุดความทรงจำ เก็บเหตุการณ์สำคัญของคุณสองคน","ค่าซ่อน ความไว้ใจ และ ความเปิดใจ ที่ทำให้ฉากลับและฉากจบแตกต่างกัน มีฉากจบหลายแบบ","ความสำเร็จ 19 รายการ"])},
+ {t:"ชีวิตคู่และบ้าน",h:ul(["ตั้งจุดบ้านจากเมนู ชีวิตคู่ > บ้านของเรา ระบบสแกนหาเตียงรอบจุดบ้านให้ดาไซนอนทุกคืน และตั้งจุดเกิดของผู้เล่นให้ด้วย","สั่งให้ดาไซกลับบ้านหรืออยู่บ้านได้ ตอนเย็นถ้าไม่ได้ตามผู้เล่น ดาไซจะเดินกลับบ้านเอง และทักต้อนรับเมื่อผู้เล่นกลับถึงบ้าน","นอนด้วยกัน: กลางคืนเมื่ออยู่ใกล้บ้าน ผู้เล่นนอนข้างดาไซเพื่อข้ามคืนเป็นเช้า พร้อมบัฟตื่นสดชื่น","หลังแต่งงานดาไซช่วยสู้ และวาร์ปตามผู้เล่นได้","ดาไซไม่มีวันตาย ถ้าตายจริงจะเกิดใหม่ใกล้คู่สมรสพร้อมค่าเดิมทั้งหมด"])},
+ {t:"ชีวิตประจำวันของดาไซ",h:ul(["อารมณ์ประจำวัน 5 แบบ คือ สดใส สบายๆ ง่วง เศร้า หงุดหงิด คำนวณจากเวลา ฝน ความอิ่ม ความรัก และการงอน","ตอนเดินเล่นจะทำกิจกรรมกับโลกรอบตัวเป็นระยะ ไม่ใช่เดินสุ่มอย่างเดียว","กลางคืนหาวแล้วไปนอนที่เตียง ถ้าไม่มีเตียงจะหลบใต้หลังคา ละเมอบ้าง ตื่นเช้ามาบิดขี้เกียจและทักตามระดับความสนิท","รีแอคต่อเหตุการณ์ในโลก เช่น แซว ตกใจ เป็นห่วง","ถ้าดาไซสองตัวเดินมาเจอกัน (เช่น ของผู้เล่นสองคนในเซิร์ฟเวอร์เดียวกัน) จะมีฉากทักทายกัน"])},
+ {t:"ส่วนเสริมด้านเนื้อเรื่อง",h:ul(["น้ำเสียงเปลี่ยนตามความสนิท","ดาไซจำคำตอบและเรื่องที่เคยคุยไว้ แล้วหยิบมาแซวหรือถามต่อ","ดาไซเป็นฝ่ายเริ่มก่อนได้ เช่น ชวนคุย ชวนเดท","ทางเลือกที่ไม่มีคำตอบถูกที่สุด คำตอบที่เอาใจไม่ได้เพิ่มความรักเสมอไป","ฉากเงียบที่ไม่ต้องหวาน","ความขัดแย้งจากความเข้าใจผิด และการคืนดี","พัฒนาการหลังเป็นแฟน ความสัมพันธ์ยังเดินต่อหลังสารภาพรัก","แยกบทพูดและบรรยากาศตามช่วงชีวิตของดาไซ"])},
+ {t:"ลูกของดาไซ",h:'<p>ลูกแต่ละคนได้บุคลิกแบบสุ่ม 1 ใน 10 แบบ และมีบทพูด คำเรียกตัวเอง และฉากบอกลาของบุคลิกนั้น</p>'+ul(["ซึนเดเระ · ยันเดเระ · คูลเดเระ · ดันเดเระ · เดเระเดเระ","สายเลือดร้อน · สายนิ่งสุขุม · สายเงียบมืดมน · โดจิกโกะ (ซุ่มซ่าม) · ชูนิเบียว (หลุดโลก)"])},
+ {t:"ภาพและเสียง",h:ul(["ระบบกล้องกลางสำหรับฉากพิเศษ เลื่อนมุมกล้องลื่นๆ ไม่กะพริบ ไม่กระตุก","ฉากบอกลาของลูกมีกล้องแยกตามบุคลิก","โมเดลและสกินของดาไซพร้อมท่าทางประกอบ และมีเสียงประกอบจำนวนมาก"])}]
+}];
+const list=document.getElementById("list"),jump=document.getElementById("jump");
 ADDONS.forEach(a=>{
- const c=document.createElement("article");c.className="card";
- const im=document.createElement("img");im.src=a.icon;im.alt="";
- const d=document.createElement("div");
- const h=document.createElement("h2");h.textContent=a.name;
- const v=document.createElement("p");v.className="ver";v.textContent=a.ver+" · "+a.size;
- const p=document.createElement("p");p.textContent=a.desc;
- d.append(h,v,p);
- if(a.ladder){
-  const L=document.createElement("div");L.className="ladder";L.setAttribute("role","img");L.setAttribute("aria-label","อัตราสุ่มความหายาก");
-  const G=document.createElement("div");G.className="legend";
-  R.forEach(([n,q,k])=>{const s=document.createElement("span");s.style.cssText="flex:"+q+";background:var("+k+")";s.textContent=n;L.appendChild(s);
-   const l=document.createElement("span");const i=document.createElement("i");i.style.background="var("+k+")";l.append(i,n+" "+q+"%");G.appendChild(l)});
-  d.append(L,G);
- }
- const u=document.createElement("ul");u.className="feat";a.feats.forEach(t=>{const li=document.createElement("li");li.textContent=t;u.appendChild(li)});
- const b=document.createElement("a");b.className="btn";b.href=a.file;b.setAttribute("download","");b.textContent="ดาวน์โหลด .mcaddon";
- const r=document.createElement("p");r.className="rq";r.textContent=a.req;
- d.append(u,b,r);c.append(im,d);list.appendChild(c);
+ const j=document.createElement("a");j.href="#"+a.id;j.textContent=a.name;jump.appendChild(j);
+ const c=document.createElement("article");c.className="card";c.id=a.id;
+ let h='<div class="head"><img src="'+a.icon+'" alt=""><div><h2>'+a.name+'</h2><p class="ver">'+a.ver+' · '+a.size+'</p><a class="btn" href="'+a.file+'" download>ดาวน์โหลด .mcaddon</a></div></div><p class="sum">'+a.desc+'</p><p class="rq">'+a.req+'</p>';
+ if(a.ladder){h+='<div class="ladder" role="img" aria-label="อัตราสุ่มความหายาก">'+R.map(([n,p,k])=>'<span style="flex:'+p+';background:var('+k+')">'+n+'</span>').join('')+'</div>'}
+ h+=a.secs.map(s=>'<details'+(s.open?' open':'')+'><summary>'+s.t+'</summary><div class="body">'+s.h+'</div></details>').join('');
+ c.innerHTML=h;list.appendChild(c);
 });
 </script></body></html>
