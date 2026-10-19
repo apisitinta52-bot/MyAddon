@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="th"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Addon Hub — MythicForge</title>
+<title>MyAddon — แอดออน Minecraft PE</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Noto+Sans+Thai:wght@400;500;700&display=swap">
 <style>
 :root{--bg:#f4f2f8;--surface:#fff;--ink:#1d1830;--mute:#6a6580;--line:#dcd7e8;--accent:#6d3fd6;--on:#fff;
@@ -28,33 +28,35 @@ h1{font:700 clamp(40px,9vw,72px)/1 "Pixelify Sans","Noto Sans Thai",monospace;ma
 .btn{display:inline-block;text-decoration:none;font:700 16px "Noto Sans Thai",sans-serif;background:var(--accent);color:var(--on);border:0;border-radius:6px;padding:12px 22px;cursor:pointer}
 button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}button:disabled{opacity:.5;cursor:not-allowed}
 .msg{font-size:14px;margin:10px 0 0;color:var(--mute);min-height:1.4em}
-.how{margin:40px 0 0}.how h3{font:700 20px "Noto Sans Thai",sans-serif;margin:0 0 8px}.how ol{padding-left:22px;margin:0}.how li{margin:6px 0}
+.card+.card{margin-top:20px}.card .ladder{margin:16px 0 8px;height:36px}.card .legend{margin:0 0 16px}.rq{font-size:14px;color:var(--mute);margin:14px 0 0}.how{margin:40px 0 0}.how h3{font:700 20px "Noto Sans Thai",sans-serif;margin:0 0 8px}.how ol{padding-left:22px;margin:0}.how li{margin:6px 0}
 .req{margin:32px 0 0;font-size:14px;color:var(--mute)}
 @media (max-width:560px){.card{grid-template-columns:1fr}.ladder span{font-size:0}}
 </style></head><body><div class="wrap">
 <p class="brand">ADDON HUB สำหรับ Minecraft PE</p>
-<h1>MythicForge</h1>
-<p class="lead">แอดออนสุ่มความหายาก ออฟฟิก พาสซีฟ และสกิลให้อาวุธ เครื่องมือ และเกราะ ดาวน์โหลดแล้วนำเข้าเกมได้เลย</p>
-<div class="ladder" role="img" aria-label="อัตราสุ่มความหายาก"></div>
-<div class="legend" id="legend"></div>
+<h1>MyAddon</h1>
+<p class="lead">รวมแอดออน Minecraft PE ที่ทำเอง ดาวน์โหลดแล้วนำเข้าเกมได้เลย</p>
 <div id="list"></div>
 <section class="how"><h3>วิธีติดตั้ง</h3><ol>
 <li>กดดาวน์โหลดไฟล์ .mcaddon</li>
 <li>แตะไฟล์ .mcaddon Minecraft จะเปิดและนำเข้าอัตโนมัติ</li>
-<li>เปิดใช้ทั้ง Behavior Pack และ Resource Pack ตอนสร้างโลก</li></ol></section>
-<p class="req">ต้องใช้ Minecraft เวอร์ชัน 1.26.50 ขึ้นไป ใช้ Script API ตัวเสถียร 2.10.0</p>
+<li>ตอนสร้างโลก เปิดใช้ทั้ง Behavior Pack และ Resource Pack ของแอดออนนั้น</li></ol></section>
+
 </div>
 <script>
-/* เพิ่มแอดออนใหม่: วางไฟล์ไว้ในโฟลเดอร์ addons/ แล้วเพิ่มรายการในนี้ */
+/* เพิ่มแอดออนใหม่: วางไฟล์ไว้ข้างๆ index.html แล้วเพิ่มรายการในนี้ */
+const R=[["Common",30,"--c0"],["Uncommon",35,"--c1"],["Rare",21,"--c2"],["Epic",9.1,"--c3"],["Legendary",3.43,"--c4"],["Mythic",1.47,"--c5"]];
 const ADDONS=[{
- name:"MythicForge",ver:"Behavior 1.6.1 / Resource 1.2.1",size:"437 KB",
+ name:"MythicForge",ver:"Behavior 1.6.1 / Resource 1.2.1",size:"437 KB",ladder:true,
  desc:"สุ่มความหายาก 6 ระดับ พร้อมออฟฟิกและเอฟเฟกต์เฉพาะตัว มีหินอัปเกรด พาสซีฟ และสกิล (ย่อตัว + ใช้ไอเทม) รองรับภาษาอังกฤษและไทย",
  feats:["จำนวนออฟฟิกเพิ่มตามระดับ ตั้งแต่ 0 ถึง 7","Unique Effect: Epic 10%, Legendary 35%, Mythic 100%","หินอัปเกรดเพื่อดันความหายาก"],
- file:"MythicForge.mcaddon",icon:"MythicForge.png"}];
-const R=[["Common",30,"--c0"],["Uncommon",35,"--c1"],["Rare",21,"--c2"],["Epic",9.1,"--c3"],["Legendary",3.43,"--c4"],["Mythic",1.47,"--c5"]];
-const L=document.querySelector(".ladder"),G=document.getElementById("legend");
-R.forEach(([n,p,c])=>{const s=document.createElement("span");s.style.cssText="flex:"+p+";background:var("+c+")";s.textContent=n;L.appendChild(s);
- const l=document.createElement("span");const i=document.createElement("i");i.style.background="var("+c+")";l.append(i,n+" "+p+"%");G.appendChild(l)});
+ req:"ต้องใช้ Minecraft 1.26.50 ขึ้นไป (Script API 2.10.0)",
+ file:"MythicForge.mcaddon",icon:"MythicForge.png"},
+{
+ name:"Dazai Dating",ver:"เวอร์ชัน 1.80.0 (canon)",size:"2.5 MB",
+ desc:"จีบโอซามุ ดาไซในมายคราฟ พร้อมสกินและโมเดลของดาไซ",
+ feats:["บทพูดและเนื้อเรื่องของดาไซ","ลูกที่ได้บุคลิกต่างกันแบบสุ่ม แต่ละบุคลิกมีบทพูดของตัวเอง"],
+ req:"ต้องใช้ Minecraft 1.24.0 ขึ้นไป",
+ file:"Dazai_Dating_canon.mcaddon",icon:"Dazai_Dating.png"}];
 const list=document.getElementById("list");
 ADDONS.forEach(a=>{
  const c=document.createElement("article");c.className="card";
@@ -63,8 +65,17 @@ ADDONS.forEach(a=>{
  const h=document.createElement("h2");h.textContent=a.name;
  const v=document.createElement("p");v.className="ver";v.textContent=a.ver+" · "+a.size;
  const p=document.createElement("p");p.textContent=a.desc;
+ d.append(h,v,p);
+ if(a.ladder){
+  const L=document.createElement("div");L.className="ladder";L.setAttribute("role","img");L.setAttribute("aria-label","อัตราสุ่มความหายาก");
+  const G=document.createElement("div");G.className="legend";
+  R.forEach(([n,q,k])=>{const s=document.createElement("span");s.style.cssText="flex:"+q+";background:var("+k+")";s.textContent=n;L.appendChild(s);
+   const l=document.createElement("span");const i=document.createElement("i");i.style.background="var("+k+")";l.append(i,n+" "+q+"%");G.appendChild(l)});
+  d.append(L,G);
+ }
  const u=document.createElement("ul");u.className="feat";a.feats.forEach(t=>{const li=document.createElement("li");li.textContent=t;u.appendChild(li)});
  const b=document.createElement("a");b.className="btn";b.href=a.file;b.setAttribute("download","");b.textContent="ดาวน์โหลด .mcaddon";
- d.append(h,v,p,u,b);c.append(im,d);list.appendChild(c);
+ const r=document.createElement("p");r.className="rq";r.textContent=a.req;
+ d.append(u,b,r);c.append(im,d);list.appendChild(c);
 });
 </script></body></html>
