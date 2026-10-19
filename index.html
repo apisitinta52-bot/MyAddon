@@ -41,8 +41,38 @@ h1{font:700 clamp(40px,9vw,72px)/1 "Pixelify Sans","Noto Sans Thai",monospace;ma
 .ladder span{display:flex;align-items:center;justify-content:center;font:700 12px "Pixelify Sans",monospace;color:#fff;overflow:hidden;text-shadow:0 1px 0 rgba(0,0,0,.4)}
 details{border-top:1px solid var(--line)}
 summary{cursor:pointer;font-weight:700;padding:12px 0;list-style:none}
-summary::before{content:"+";display:inline-block;width:1.2em;color:var(--accent)}
-details[open] summary::before{content:"−"}
+summary::before{content:"+";display:inline-block;width:1.2em;color:var(--accent);transition:transform .3s cubic-bezier(.3,1.5,.5,1)}
+details[open] summary::before{transform:rotate(135deg)}
+summary{transition:color .2s,padding-left .2s}summary:hover{color:var(--accent);padding-left:4px}
+/* ===== Animations ===== */
+@keyframes tileIn{from{opacity:0;transform:translateY(22px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes cardIn{from{opacity:0;transform:translateY(28px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes reveal{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes pop{from{opacity:0;transform:scale(.8) rotate(-2deg)}to{opacity:1;transform:none}}
+@keyframes tilePick{to{transform:scale(1.06);opacity:0}}
+@keyframes tileAway{to{transform:scale(.9);opacity:0}}
+@keyframes ripple{to{transform:scale(4);opacity:0}}
+.tile{animation:tileIn .55s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*90ms);transition:transform .22s cubic-bezier(.3,1.4,.5,1),box-shadow .22s,border-color .2s}
+.tile:hover{transform:translateY(-5px);box-shadow:0 8px 0 var(--accent)}
+.tile:active{transform:translateY(0) scale(.97);box-shadow:none}
+.tile.pick{animation:tilePick .28s ease-in forwards}
+.tile.away{animation:tileAway .25s ease-in forwards}
+.tl img{transition:transform .3s cubic-bezier(.3,1.5,.5,1)}
+.tile:hover .tl img{transform:rotate(-6deg) scale(1.1)}
+.btn{position:relative;overflow:hidden;transition:transform .15s,box-shadow .2s,filter .2s}
+.btn:hover{filter:brightness(1.1);box-shadow:0 4px 0 rgba(0,0,0,.25);transform:translateY(-2px)}
+.btn:active{transform:translateY(1px) scale(.95);box-shadow:none}
+.btn .rp{position:absolute;border-radius:50%;background:rgba(255,255,255,.55);width:30px;height:30px;margin:-15px 0 0 -15px;pointer-events:none;animation:ripple .6s ease-out forwards}
+.back{transition:transform .2s}.back:hover{transform:translateX(-5px)}.back:active{transform:translateX(-9px) scale(.95)}
+.jump a{transition:transform .15s}
+.card.enter{animation:cardIn .5s cubic-bezier(.2,.8,.2,1) both}
+.card.enter .head img{animation:pop .6s .1s cubic-bezier(.3,1.5,.5,1) both}
+.card.enter .ladder{animation:reveal .9s .25s cubic-bezier(.6,0,.2,1) both}
+.card.enter details{animation:fadeUp .45s both;animation-delay:calc(.2s + var(--d,0)*70ms)}
+.card.enter .rec figure{animation:pop .5s .15s both}
+.body{overflow:hidden}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 .body{padding:0 0 14px;font-size:15px}
 .body p{margin:0 0 8px}.body ul{margin:0 0 8px;padding-left:20px}.body li{margin:2px 0}
 .tw{overflow-x:auto;margin:0 0 10px}
@@ -119,13 +149,52 @@ ADDONS.forEach(a=>{
  h+=a.secs.map(s=>'<details'+(s.open?' open':'')+'><summary>'+s.t+'</summary><div class="body">'+s.h+'</div></details>').join('');
  c.innerHTML=h;list.appendChild(c);
 });
+const replay=(el,cls)=>{el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls)};
+document.querySelectorAll(".tile").forEach((t,i)=>t.style.setProperty("--i",i));
+document.querySelectorAll(".card details").forEach(d=>d.style.setProperty("--d",[...d.parentNode.children].indexOf(d)));
 function route(){
  const id=location.hash.replace("#",""),cur=ADDONS.find(a=>a.id===id);
  tiles.hidden=!!cur;back.hidden=!cur;
  lead.textContent=cur?"":LEAD;lead.hidden=!!cur;
  ADDONS.forEach(a=>{document.getElementById(a.id).hidden=!cur||cur.id!==a.id});
+ document.querySelectorAll(".tile").forEach(t=>t.classList.remove("pick","away"));
+ if(cur)replay(document.getElementById(cur.id),"enter");
  document.title=cur?cur.name+" — MyAddon":"MyAddon — แอดออน Minecraft PE";
  window.scrollTo(0,0);
 }
 window.addEventListener("hashchange",route);route();
+/* คลิกการ์ดใน Lobby: เล่นแอนิเมชันก่อนเปลี่ยนหน้า */
+tiles.addEventListener("click",e=>{
+ const a=e.target.closest(".tl");if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;
+ if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+ e.preventDefault();const me=a.parentElement;
+ tiles.querySelectorAll(".tile").forEach(t=>t.classList.add(t===me?"pick":"away"));
+ setTimeout(()=>{location.hash=a.getAttribute("href")},260);
+});
+/* เมนูพับ: เปิด/ปิดแบบนุ่มๆ */
+list.addEventListener("click",e=>{
+ const s=e.target.closest("summary");if(!s)return;
+ const d=s.parentElement,b=d.querySelector(".body");
+ if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+ e.preventDefault();
+ if(d._a)d._a.cancel();
+ const o={duration:320,easing:"cubic-bezier(.2,.8,.2,1)"};
+ if(!d.open){
+  d.open=true;const h=b.offsetHeight;
+  d._a=b.animate([{height:"0px",paddingBottom:"0px",opacity:0},{height:h+"px",paddingBottom:"14px",opacity:1}],o);
+  d._a.onfinish=d._a.oncancel=()=>{d._a=null};
+ }else{
+  const h=b.offsetHeight;
+  d._a=b.animate([{height:h+"px",paddingBottom:"14px",opacity:1},{height:"0px",paddingBottom:"0px",opacity:0}],{...o,duration:260});
+  d._a.onfinish=()=>{d.open=false;d._a=null};
+  d._a.oncancel=()=>{d._a=null};
+ }
+});
+/* ปุ่ม: เอฟเฟกต์คลื่นน้ำตอนกด */
+document.addEventListener("pointerdown",e=>{
+ const b=e.target.closest(".btn");if(!b)return;
+ const r=b.getBoundingClientRect(),s=document.createElement("span");
+ s.className="rp";s.style.left=(e.clientX-r.left)+"px";s.style.top=(e.clientY-r.top)+"px";
+ b.appendChild(s);setTimeout(()=>s.remove(),650);
+});
 </script></body></html>
