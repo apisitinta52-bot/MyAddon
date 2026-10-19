@@ -72,6 +72,32 @@ summary{transition:color .2s,padding-left .2s}summary:hover{color:var(--accent);
 .card.enter details{animation:fadeUp .45s both;animation-delay:calc(.2s + var(--d,0)*70ms)}
 .card.enter .rec figure{animation:pop .5s .15s both}
 .body{overflow:hidden}
+#bg,#fx{position:fixed;left:0;top:0;pointer-events:none}
+#bg{z-index:0}#fx{z-index:50}
+.wrap{position:relative;z-index:1}
+.play{background:var(--soft);border:2px dashed var(--accent);border-radius:10px;padding:18px;margin:0 0 18px}
+.play h3{margin:0 0 4px;font:700 20px "Pixelify Sans","Noto Sans Thai",monospace}
+.play .s{margin:0 0 14px;color:var(--mute);font-size:14px}
+.stage{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.slot{--rc:var(--c0);width:96px;height:96px;flex:none;border:3px solid var(--ink);border-radius:10px;background:var(--surface);display:flex;align-items:center;justify-content:center;transition:box-shadow .3s,border-color .3s}
+.slot canvas{width:72px;height:auto;image-rendering:pixelated;opacity:.45;transition:opacity .3s}
+.slot.has canvas{opacity:1}
+.slot.has{border-color:var(--rc);box-shadow:0 0 0 3px var(--rc),0 0 26px var(--rc)}
+.slot.shake{animation:shake .12s infinite}
+.slot.land{animation:land .5s cubic-bezier(.3,1.5,.5,1)}
+@keyframes shake{0%{transform:translate(-2px,1px) rotate(-3deg)}50%{transform:translate(2px,-1px) rotate(3deg)}100%{transform:translate(-2px,1px) rotate(-3deg)}}
+@keyframes land{0%{transform:scale(.6) rotate(-10deg)}60%{transform:scale(1.18)}100%{transform:none}}
+.res{flex:1;min-width:200px}
+.res .nm{margin:0 0 6px}
+.tag{display:inline-block;background:var(--mute);color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.4);font:700 20px "Pixelify Sans","Noto Sans Thai",monospace;padding:2px 14px;border-radius:6px;transition:background .2s}
+.res .dt{margin:0;min-height:3em;font-size:15px}
+.play .row{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:14px 0 0}
+.play button.btn{border:0;cursor:pointer}
+.btn:disabled{opacity:.6;cursor:wait}
+.cnt{color:var(--mute);font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 0}
+.chip{font:700 12px "Pixelify Sans","Noto Sans Thai",monospace;color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.4);border-radius:4px;padding:2px 8px;opacity:.35;transition:opacity .3s}
+.chip.on{opacity:1;animation:pop .4s}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 .body{padding:0 0 14px;font-size:15px}
 .body p{margin:0 0 8px}.body ul{margin:0 0 8px;padding-left:20px}.body li{margin:2px 0}
@@ -86,7 +112,7 @@ th{background:var(--soft)}
 .rg b{height:40px;display:flex;align-items:center;justify-content:center;background:var(--soft);border:1px solid var(--line);border-radius:4px;font:700 14px "Pixelify Sans",monospace}
 .how{margin:36px 0 0}.how h3{font-size:20px;margin:0 0 8px}.how ol{padding-left:22px;margin:0}.how li{margin:6px 0}
 @media (max-width:560px){.head{flex-direction:column}.ladder span{font-size:0}}
-</style></head><body><div class="wrap">
+</style></head><body><canvas id="bg" aria-hidden="true"></canvas><canvas id="fx" aria-hidden="true"></canvas><div class="wrap">
 <p class="brand">ADDON HUB สำหรับ Minecraft PE</p>
 <h1>MyAddon</h1>
 <p class="lead" id="lead">รวมแอดออน Minecraft PE ที่ทำเอง เลือกแอดออนที่สนใจเพื่อดูรายละเอียดและดาวน์โหลด</p>
@@ -106,6 +132,59 @@ const tbl=(h,rows)=>'<div class="tw"><table><tr>'+h.map(x=>'<th>'+x+'</th>').joi
 const grid=c=>'<div class="rg">'+c.map(x=>'<b>'+x+'</b>').join('')+'</div>';
 const ul=a=>'<ul>'+a.map(x=>'<li>'+x+'</li>').join('')+'</ul>';
 const dot=k=>'<i class="dot" style="background:var('+k+')"></i>';
+/* ===== ส่วนสุ่มเล่นได้ ===== */
+const RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
+const OFF=[[0,1],[1,2],[2,3],[3,4],[4,5],[6,7]],UNI=[0,0,0,.1,.35,1];
+const GEARS=["ดาบ","ขวาน","พลั่ว","หมวกเกราะ","เสื้อเกราะ","แหวน"];
+const KIDS=[
+["ซึนเดเระ","ม-ไม่ได้อยากอยู่ใกล้ๆ หรอกนะ! แค่เดินมาทางเดียวกันเฉยๆ!","--c5"],
+["ยันเดเระ","หนูจะอยู่ข้างๆ ตลอดเลยนะ ห้ามไปไหนไกลๆ นะ ♡","--c3"],
+["คูลเดเระ","...อืม ขอบใจที่อยู่ด้วยกัน","--c2"],
+["ดันเดเระ","เอ่อ... ค-คือ... วันนี้หนูดีใจที่ได้เจอนะ...","--c6"],
+["เดเระเดเระ","รักที่สุดเลย! กอดหน่อยๆ!","--c4"],
+["สายเลือดร้อน","ไปกันเลย! วันนี้หนูจะสู้ให้สุดตัว!","--c5"],
+["สายนิ่งสุขุม","ใจเย็นๆ ก่อนนะ ค่อยๆ คิดไปทีละเรื่อง","--c2"],
+["สายเงียบมืดมน","...เงามันกระซิบว่า วันนี้จะมีเรื่องเกิดขึ้น","--c3"],
+["โดจิกโกะ","อุ๊ย! ล้มอีกแล้ว... แต่ไม่เจ็บหรอก หนูโอเค!","--c1"],
+["ชูนิเบียว","พลังที่ถูกผนึกไว้ในแขนข้างขวาของหนู... กำลังตื่นขึ้น!","--c4"]];
+const GEM=["000111000","001333110","011331111","113311112","111111122","011111122","001111220","000112200","000022000"];
+const HEART=["0110110","1311111","1111111","0111112","0011120","0001200"];
+const wpick=(a,w)=>{let t=a.reduce((s,x)=>s+w(x),0),r=Math.random()*t;for(let i=0;i<a.length;i++){r-=w(a[i]);if(r<0)return i}return a.length-1};
+const cv=k=>getComputedStyle(document.documentElement).getPropertyValue(k).trim();
+function drawSprite(cn,m,col){const h=m.length,w=m[0].length;cn.width=w;cn.height=h;const g=cn.getContext("2d");for(let y=0;y<h;y++)for(let x=0;x<w;x++){const ch=m[y][x];if(ch==="0")continue;g.fillStyle=col;g.fillRect(x,y,1,1);if(ch==="2"){g.fillStyle="rgba(0,0,0,.28)";g.fillRect(x,y,1,1)}if(ch==="3"){g.fillStyle="rgba(255,255,255,.7)";g.fillRect(x,y,1,1)}}}
+const PLAYS={
+ mythicforge:{title:"ลองสุ่มความหายาก",sub:"กดสุ่มดูว่าไอเทมจะได้ระดับไหน ใช้อัตราสุ่มตามแอดออนจริง (Divine ได้จากการอัปเกรดเท่านั้น จึงไม่อยู่ในนี้)",idle:"พร้อมสุ่ม",btn:"สุ่มไอเทม",sprite:GEM,n:6,
+  label:i=>R[i][0],col:i=>R[i][2],roll:()=>wpick(R.slice(0,6),x=>x[1]),
+  detail:i=>{const o=OFF[i],n=o[0]+Math.floor(Math.random()*(o[1]-o[0]+1));return GEARS[Math.floor(Math.random()*GEARS.length)]+" · ออฟฟิก "+n+" แบบ · Unique Effect: "+(Math.random()<UNI[i]?"ติด ✦":"ไม่ติด")},
+  big:i=>i>=4,coll:false},
+ dazai:{title:"สุ่มบุคลิกลูก",sub:"ลูกแต่ละคนได้บุคลิกแบบสุ่ม 1 ใน 10 แบบ ลองกดดูว่าจะได้แบบไหน (บทพูดในกล่องเป็นตัวอย่างประกอบเท่านั้น ไม่ใช่บทพูดจริงในแอดออน)",idle:"พร้อมสุ่ม",btn:"สุ่มบุคลิก",sprite:HEART,n:10,
+  label:i=>KIDS[i][0],col:i=>KIDS[i][2],roll:()=>Math.floor(Math.random()*10),
+  detail:i=>"“"+KIDS[i][1]+"”",type:true,big:()=>true,coll:true}};
+function mkPlay(c,f){
+ const b=document.createElement("div");b.className="play";
+ b.innerHTML='<h3>'+f.title+'</h3><p class="s">'+f.sub+'</p><div class="stage"><div class="slot"><canvas></canvas></div><div class="res"><div class="nm"><span class="tag">'+f.idle+'</span></div><p class="dt"></p></div></div><div class="row"><button type="button" class="btn go">'+f.btn+'</button><span class="cnt"></span></div><div class="chips">'+Array.from({length:f.n},(_,i)=>'<span class="chip" style="background:var('+f.col(i)+')">'+f.label(i)+' ×0</span>').join('')+'</div>';
+ c.insertBefore(b,c.querySelector("details"));
+ const slot=b.querySelector(".slot"),cvs=b.querySelector("canvas"),tag=b.querySelector(".tag"),dt=b.querySelector(".dt"),cnt=b.querySelector(".cnt"),chips=[...b.querySelectorAll(".chip")],go=b.querySelector(".go");
+ const cnts=Array(f.n).fill(0);let tot=0,busy=false,tm;
+ const paint=i=>{slot.style.setProperty("--rc","var("+f.col(i)+")");drawSprite(cvs,f.sprite,cv(f.col(i)))};
+ paint(0);
+ const done=()=>{
+  const i=f.roll();paint(i);slot.classList.remove("shake");slot.classList.add("has");replay(slot,"land");
+  tag.textContent=f.label(i);tag.style.background="var("+f.col(i)+")";
+  cnts[i]++;tot++;chips[i].textContent=f.label(i)+" ×"+cnts[i];replay(chips[i],"on");
+  cnt.textContent="สุ่มแล้ว "+tot+" ครั้ง"+(f.coll?" · สะสมได้ "+cnts.filter(Boolean).length+"/"+f.n:"");
+  const d=Array.from(f.detail(i));
+  if(f.type&&!RM){let j=0;dt.textContent="";tm=setInterval(()=>{dt.textContent=d.slice(0,++j).join("");if(j>=d.length)clearInterval(tm)},30)}else dt.textContent=d.join("");
+  if(f.big(i)){const r=slot.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,[cv(f.col(i)),"#ffffff"],i>=5&&f.n===6?44:26)}
+  busy=false;go.disabled=false;
+ };
+ go.addEventListener("click",()=>{
+  if(busy)return;busy=true;go.disabled=true;clearInterval(tm);dt.textContent="";
+  slot.classList.add("shake","has");tag.textContent="กำลังสุ่ม…";tag.style.background="var(--mute)";
+  let k=0;const max=RM?2:14;
+  const iv=setInterval(()=>{paint(Math.floor(Math.random()*f.n));if(++k>=max){clearInterval(iv);done()}},70);
+ });
+}
 const ADDONS=[{
  id:"mythicforge",short:"สุ่มความหายาก ออฟฟิก พาสซีฟ และสกิลให้ไอเทม พร้อมหินอัปเกรดไปถึงระดับ Divine",name:"MythicForge",ver:"Behavior 1.6.1 / Resource 1.2.1",size:"437 KB",ladder:true,
  desc:"สุ่มความหายากให้อาวุธ ขวาน เครื่องมือ เกราะ และอุปกรณ์เสริม ตั้งแต่ Common ถึง Divine แต่ละชิ้นได้ออฟฟิก เอฟเฟกต์เฉพาะตัว พาสซีฟ และสกิลต่างกัน มีหินอัปเกรดคราฟได้ ข้อความบนไอเทมเป็นภาษาไทย",
@@ -148,8 +227,25 @@ ADDONS.forEach(a=>{
  if(a.ladder){h+='<div class="ladder" role="img" aria-label="อัตราสุ่มความหายาก">'+R.map(([n,p,k])=>'<span style="flex:'+p+';background:var('+k+')">'+n+'</span>').join('')+'</div>'}
  h+=a.secs.map(s=>'<details'+(s.open?' open':'')+'><summary>'+s.t+'</summary><div class="body">'+s.h+'</div></details>').join('');
  c.innerHTML=h;list.appendChild(c);
+ if(PLAYS[a.id])mkPlay(c,PLAYS[a.id]);
 });
 const replay=(el,cls)=>{el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls)};
+/* ===== พื้นหลังพิกเซลลอย + เอฟเฟกต์ระเบิด ===== */
+const bg=document.getElementById("bg"),bx=bg.getContext("2d"),fxc=document.getElementById("fx"),fxx=fxc.getContext("2d");
+let W=0,H=0,mode="lobby",P=[],F=[],fxOn=false;
+const SP={heart:HEART,gem:["00100","01110","11111","01110","00100"],star:["00100","00100","11111","00100","00100"],block:["1111","1111","1111","1111"],petal:["011","111","110"]};
+const MODES={lobby:{sp:["heart","gem","star","block","petal"],col:["#a98bff","#3fae63","#3b82f6","#f59e0b","#f472b6","#06b6d4"]},
+ mythicforge:{sp:["gem","star","block"],col:["#9aa0a6","#3fae63","#3b82f6","#a855f7","#f59e0b","#ef4444","#06b6d4"]},
+ dazai:{sp:["heart","petal","star"],col:["#f472b6","#fb7185","#c084fc","#fda4af","#a98bff"]}};
+const pk=a=>a[Math.floor(Math.random()*a.length)];
+function mk(init){const m=MODES[mode];return{x:Math.random()*W,y:init?Math.random()*H:H+30,sp:SP[pk(m.sp)],c:pk(m.col),px:2+Math.floor(Math.random()*3),vy:.15+Math.random()*.35,ph:Math.random()*6.28,a:.16+Math.random()*.22,f:1}}
+function draw(t){bx.clearRect(0,0,W,H);for(const p of P){if(!RM)p.y-=p.vy;if(p.y<-60)Object.assign(p,mk(false));if(p.f<1)p.f=Math.min(1,p.f+.02);bx.globalAlpha=p.a*p.f;bx.fillStyle=p.c;const ox=Math.round(p.x+Math.sin(t/1400+p.ph)*14),oy=Math.round(p.y);p.sp.forEach((r,y)=>{for(let x=0;x<r.length;x++)if(r[x]!=="0")bx.fillRect(ox+x*p.px,oy+y*p.px,p.px,p.px)})}bx.globalAlpha=1}
+function size(){const d=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;[bg,fxc].forEach(c=>{c.width=W*d;c.height=H*d;c.style.width=W+"px";c.style.height=H+"px"});bx.setTransform(d,0,0,d,0,0);fxx.setTransform(d,0,0,d,0,0);const n=Math.round(Math.min(34,Math.max(12,W/32)));while(P.length<n)P.push(mk(true));P.length=n;if(RM)draw(0)}
+function loop(t){draw(t);requestAnimationFrame(loop)}
+function setMode(m){mode=m;P.forEach(p=>{const q=mk(true);p.sp=q.sp;p.c=q.c;p.f=0});if(RM)draw(0)}
+function burst(x,y,cols,n){if(RM)return;for(let i=0;i<n;i++){const a=Math.random()*6.283,s=2+Math.random()*5;F.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-3,l:1,c:cols[i%cols.length],s:3+Math.floor(Math.random()*4)})}if(!fxOn){fxOn=true;requestAnimationFrame(fxLoop)}}
+function fxLoop(){fxx.clearRect(0,0,W,H);F=F.filter(p=>p.l>0);for(const p of F){p.x+=p.vx;p.y+=p.vy;p.vy+=.25;p.vx*=.98;p.l-=.018;fxx.globalAlpha=Math.max(p.l,0);fxx.fillStyle=p.c;fxx.fillRect(Math.round(p.x),Math.round(p.y),p.s,p.s)}fxx.globalAlpha=1;if(F.length)requestAnimationFrame(fxLoop);else{fxOn=false;fxx.clearRect(0,0,W,H)}}
+addEventListener("resize",size);size();if(!RM)requestAnimationFrame(loop);
 document.querySelectorAll(".tile").forEach((t,i)=>t.style.setProperty("--i",i));
 document.querySelectorAll(".card details").forEach(d=>d.style.setProperty("--d",[...d.parentNode.children].indexOf(d)));
 function route(){
@@ -158,6 +254,7 @@ function route(){
  lead.textContent=cur?"":LEAD;lead.hidden=!!cur;
  ADDONS.forEach(a=>{document.getElementById(a.id).hidden=!cur||cur.id!==a.id});
  document.querySelectorAll(".tile").forEach(t=>t.classList.remove("pick","away"));
+ setMode(cur?cur.id:"lobby");
  if(cur)replay(document.getElementById(cur.id),"enter");
  document.title=cur?cur.name+" — MyAddon":"MyAddon — แอดออน Minecraft PE";
  window.scrollTo(0,0);
